@@ -1,0 +1,30 @@
+{
+  "name": "koa_ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.44",
+    "@types/koa-router": "^7.0.27",
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.14.12",
+    "typescript": "^2.7.1"
+  },
+  "scripts": {
+    "start": "npm run serve",
+    "build": "npm run build-ts",
+    "serve": "node dist/index.js",
+    "watch-node": "nodemon dist/index.js",
+    "watch": "concurrently --names 'BUILD,SERVER' -c 'red,green' 'npm run watch-ts'   'npm run watch-node'",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect dist/index.js"
+  }
+}

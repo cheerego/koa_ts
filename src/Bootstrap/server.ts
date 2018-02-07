@@ -1,14 +1,15 @@
 import * as Koa from "koa";
 
+
 export default class Server {
     private port: number;
     private app: Koa;
     private count: number;
 
 
-    public constructor(port: number) {
+    public constructor(app:Koa,port: number) {
         this.port = port;
-        this.app = new Koa();
+        this.app = app;
         this.count = 0;
     }
 
@@ -20,7 +21,7 @@ export default class Server {
             console.log(`Server process: ${process.pid} listen on port ${this.port}`);
         });
 
-        this.app.on("error", (e) => console.log(`SEVERE ERROR: ${e.message}`) );
+        this.app.on("error", (e) => console.log(`SEVERE ERROR: ${e.message}`));
     }
 
 

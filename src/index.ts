@@ -1,7 +1,6 @@
-
 import Server from './Bootstrap/server';
+import app from './Http/Kernel';
 
-
-const app = new Server(3000);
-app.start();
+const server = new Server(app, 3000);
+server.start();
 

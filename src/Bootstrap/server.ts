@@ -1,5 +1,9 @@
 import * as Koa from "koa";
 
+import {_} from '../Http/Kernel';
+import * as fs from 'fs';
+import * as util from 'util';
+import * as Router from "koa-router";
 
 export default class Server {
     private port: number;
@@ -7,7 +11,7 @@ export default class Server {
     private count: number;
 
 
-    public constructor(app:Koa,port: number) {
+    public constructor(app: Koa, port: number) {
         this.port = port;
         this.app = app;
         this.count = 0;
@@ -24,13 +28,26 @@ export default class Server {
         this.app.on("error", (e) => console.log(`SEVERE ERROR: ${e.message}`));
     }
 
-
-    public registerRoutes(router: any) {
-        this.app.use(router.routes());
-        this.app.use(router.allowedMethods());
+    get router():Router {
+        const readdir = util.promisify(fs.readdir);
+        (async () => {
+            (await readdir((this.app as any).CONTROLLER_PATH))
+                .filter((item) => item.endsWith('.js'))
+                .forEach(item => {
+                    require(`${(this.app as any).CONTROLLER_PATH}/${item}`);
+                })
+            ;
+        })();
+        _.get('/123', (ctx: Koa.BaseContext) => {
+            ctx.body = 123;
+        });
+        return _;
     }
 
-    get router() {
-        return 12;
+    public registerRoutes(_:Router) {
+        this.app.use(_.routes());
+        this.app.use(_.allowedMethods());
     }
+
+
 }

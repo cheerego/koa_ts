@@ -22,5 +22,6 @@ Object.assign(app, {}, {
 
 const _: Router = new Router();
 
-export {app, _};
+export default app;
+export { _};
 
